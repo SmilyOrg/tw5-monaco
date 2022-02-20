@@ -1,0 +1,11 @@
+title: $:/config/EditorTypeMappings/
+
+application/javascript: monaco
+application/json: monaco
+application/x-tiddler-dictionary: monaco
+text/css: monaco
+text/html: monaco
+text/plain: monaco
+text/vnd.tiddlywiki: monaco
+text/x-markdown: monaco
+text/x-tiddlywiki: monaco

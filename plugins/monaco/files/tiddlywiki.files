@@ -1,0 +1,12 @@
+{
+	"tiddlers": [
+		{
+			"file": "loader.js",
+			"fields": {
+				"type": "application/javascript",
+				"title": "$:/plugins/smilyorg/monaco/lib/loader.js",
+				"module-type": "library"
+			}
+		}
+	]
+}
