@@ -1,0 +1,12 @@
+{
+    "title": "$:/plugins/smilyorg/monaco-wikitext",
+    "name": "Monaco Wikitext",
+    "description": "Monaco Wikitext Language Support",
+    "author": "Miha Lunar",
+    "version": "0.2.0",
+    "core-version": ">=5.1.21",
+    "source": "https://github.com/smilyorg/tw5-monaco",
+    "plugin-type": "plugin",
+    "parent-plugin": "$:/plugins/smilyorg/monaco",
+	"list": "readme license"
+}

@@ -52,6 +52,19 @@ Text editor engine based on a Monaco instance
         // as a result of this require and some also on-the-fly (for e.g. language support)
         context.require(["vs/editor/editor.main"], function() {
             window.monacoInit.dispatchEvent(new Event("ready"));
+            
+            // Run all monaco plugins
+            const modules = $tw.modules.types["monaco"];
+            const req = Object.getOwnPropertyNames(modules);
+            if (req) {
+                if (Array.isArray(req)) {
+                    for (const r of req) {
+                        require(r);
+                    }
+                } else {
+                    require(req);
+                }
+            }
         });
     }
     
@@ -104,7 +117,8 @@ Text editor engine based on a Monaco instance
             wordWrap: 'on',
             scrollbar: {
                 alwaysConsumeMouseWheel: false,
-            }
+            },
+            // 'semanticHighlighting.enabled': true
         });
 
         this.addObserver();
@@ -204,6 +218,7 @@ Text editor engine based on a Monaco instance
             case "text/html": languageId = "html"; break;
             case "application/javascript": languageId = "javascript"; break;
             case "text/x-markdown": languageId = "markdown"; break;
+            case "text/vnd.tiddlywiki": languageId = "tiddlywiki-wikitext"; break;
         }
         const model = this.editor.getModel();
         // Replace the whole model when changing the language

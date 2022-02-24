@@ -1,0 +1,49 @@
+created: 20220224212850891
+draft.of: Editor Example
+draft.title: Editor Example
+modified: 20220224233915932
+tags: 
+title: Draft of 'Editor Example'
+type: text/vnd.tiddlywiki
+
+This is a live example of the Monaco editor in action!
+
+Feel free to try it out in this tiddler.
+
+! New in 0.2.0 - Wikitext Support!
+
+The additional [[monaco-wikitext|$:/plugins/smilyorg/monaco-wikitext]] plugin now provides wikitext language support integrating directly with TiddlyWiki's internal parser. 
+
+! Syntax Highlighting
+
+This is now supported for simple use-cases. Formatting characters are de-emphasized for better readability. See below!
+
+!! Headers
+
+Headers are highlighted as you can see above.
+
+!! Text Formatting
+
+Text formatting is shown directly.
+
+* //italic// is shown in italic
+* ''bold'' is bolded
+* __underscore__ is underscored
+* ~~strikethrough~~ is stricken through
+* ^^superscript^^, ,,subscript,,, and `code` remain mostly as is
+
+!! Links
+
+Links to other tiddlers are highlighted wherever they are interpreted by TiddlyWiki, including explicit links like [[TiddlyWiki]] and [[named links|Philosophy of Tiddlers]]. Links to tiddlers that [[don't exist]] are [[highlighted|non-existent tiddler]] as such.
+
+External links like https://tiddlywiki.com are automatically highlighted and linked, but also wikitext-style [[external links|https://tiddlywiki.com]].
+
+!! Transclusion
+
+The {{TiddlyWiki}} transclusion is slightly lighter than the [[TiddlyWiki]] link to differentiate the two.
+
+! Hover
+
+Basic hover support for all [[internal links|Philosophy of Tiddlers]] that shows the contents directly. Try moving the mouse over the link above - the title is also clickable.
+
+See [[readme|$:/plugins/smilyorg/monaco/readme]] below for more details.
