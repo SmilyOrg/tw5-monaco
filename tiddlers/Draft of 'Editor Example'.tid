@@ -1,7 +1,7 @@
 created: 20220224212850891
 draft.of: Editor Example
 draft.title: Editor Example
-modified: 20220224233915932
+modified: 20220313182426074
 tags: 
 title: Draft of 'Editor Example'
 type: text/vnd.tiddlywiki
@@ -10,19 +10,40 @@ This is a live example of the Monaco editor in action!
 
 Feel free to try it out in this tiddler.
 
-! New in 0.2.0 - Wikitext Support!
+See [[readme|$:/plugins/smilyorg/monaco/readme]] for more details.
+
+! Changelog
+
+!! 0.3.0 - Wikitext Completion
+
+Autocompletion should now work for most linking and basic transclusion use-cases. Here are a few ways to use it. 
+
+> Press Ctrl+Space, type `phi`, and press Enter
+
+> Type `[[phi` and press Enter
+
+> Type `[[philosophy|phi` and press Enter
+
+> Move cursor to end of the line, press Ctrl+Space, then Enter
+[[phi
+[[philosophy|phi
+
+> Press Ctrl+Space twice to toggle descriptions
+[[phi
+
+!! 0.2.0 - Wikitext Support!
 
 The additional [[monaco-wikitext|$:/plugins/smilyorg/monaco-wikitext]] plugin now provides wikitext language support integrating directly with TiddlyWiki's internal parser. 
 
-! Syntax Highlighting
+!!! Syntax Highlighting
 
 This is now supported for simple use-cases. Formatting characters are de-emphasized for better readability. See below!
 
-!! Headers
+!!!! Headers
 
 Headers are highlighted as you can see above.
 
-!! Text Formatting
+!!!! Text Formatting
 
 Text formatting is shown directly.
 
@@ -32,18 +53,16 @@ Text formatting is shown directly.
 * ~~strikethrough~~ is stricken through
 * ^^superscript^^, ,,subscript,,, and `code` remain mostly as is
 
-!! Links
+!!!! Links
 
 Links to other tiddlers are highlighted wherever they are interpreted by TiddlyWiki, including explicit links like [[TiddlyWiki]] and [[named links|Philosophy of Tiddlers]]. Links to tiddlers that [[don't exist]] are [[highlighted|non-existent tiddler]] as such.
 
 External links like https://tiddlywiki.com are automatically highlighted and linked, but also wikitext-style [[external links|https://tiddlywiki.com]].
 
-!! Transclusion
+!!!! Transclusion
 
 The {{TiddlyWiki}} transclusion is slightly lighter than the [[TiddlyWiki]] link to differentiate the two.
 
-! Hover
+!!! Hover
 
 Basic hover support for all [[internal links|Philosophy of Tiddlers]] that shows the contents directly. Try moving the mouse over the link above - the title is also clickable.
-
-See [[readme|$:/plugins/smilyorg/monaco/readme]] below for more details.

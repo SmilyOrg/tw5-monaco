@@ -4,7 +4,7 @@
 
 Supercharged code and text editor component using the excellent [Monaco Editor](https://microsoft.github.io/monaco-editor/) \- the editor that powers [Visual Studio Code](https://code.visualstudio.com/).
 
-The integration is very basic right now. See below.
+The integration is somewhat basic right now. See below.
 
 Inspired by the [CodeMirror](#CodeMirror) plugin. Monaco Editor is licensed under MIT, copyright Microsoft. 
 
@@ -16,10 +16,16 @@ Of course I don't expect that to happen and for what it's worth, I wrote this re
 
 ## Features
 
-A lot of the out-of-the-box features of Monaco already work well. This includes syntax highlighting for select languages (HTML, JS, Markdown), advanced multiselections and editing, scrollbar minimap, word and language autocompletion, etc.
+A lot of the out-of-the-box features of Monaco already work well.
+
+* Syntax highlighting and formatting for [TiddlyWiki](#TiddlyWiki) wikitext, HTML, JS, Markdown
+* Advanced multiselections and editing
+* Scrollbar minimap
+* Tiddler autocompletion
+* Hover tooltips with tiddler contents
 
 ## Limitations
 
 * **Online only**. The Monaco editor source itself will be loaded remotely from `unpkg.com`, so editing while offline isn't possible at this point.
-* **No wikitext syntax highlighting**. Monaco does not support this by default, but I'm hoping being able to integrate directly with the [TiddlyWiki](#TiddlyWiki) parser would be interesting.
 * **No configuration**. Yet?
+* **Highlighting heuristics**. Wikitext highlighting might not always be accurate due to missing [TiddlyWiki](#TiddlyWiki) parser text ranges.

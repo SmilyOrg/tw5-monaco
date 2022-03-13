@@ -21,15 +21,14 @@ alright for what it is.
 A lot of the out-of-the-box features of Monaco
 already work well.
 
-* Syntax highlighting and formatting for Wikitext (with [[plugin|$:/plugins/smilyorg/monaco-wikitext]]), HTML, JS, Markdown
+* Syntax highlighting and formatting for TiddlyWiki wikitext, HTML, JS, Markdown
 * Advanced multiselections and editing
 * Scrollbar minimap
-* Word and language autocompletion
+* Tiddler autocompletion
 * Hover tooltips with tiddler contents
 
 !! Limitations
 
 * ''Online only''. The Monaco editor source itself will be loaded remotely from `unpkg.com`, so editing while offline isn't possible at this point.
 * ''No configuration''. Yet?
-* ''No wikitext-specific autocompletion''
 * ''Highlighting heuristics''. Wikitext highlighting might not always be accurate due to missing  TiddlyWiki parser text ranges. 

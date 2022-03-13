@@ -118,6 +118,7 @@ Text editor engine based on a Monaco instance
             scrollbar: {
                 alwaysConsumeMouseWheel: false,
             },
+            quickSuggestions: false,
             // 'semanticHighlighting.enabled': true
         });
 
