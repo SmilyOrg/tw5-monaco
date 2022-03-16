@@ -13,7 +13,7 @@ Text editor engine based on a Monaco instance
     "use strict";
     
     const HEIGHT_VALUE_TITLE = "$:/config/TextEditor/EditorHeight/Height";
-
+    
     /**
      * Executes and returns the monaco loader based on the code contained
      * in the provided tiddler.
@@ -72,6 +72,7 @@ Text editor engine based on a Monaco instance
         options = options || {};
         
         this.widget = options.widget;
+        this.wiki = this.widget.wiki;
         this.value = options.value;
         this.parentNode = options.parentNode;
         this.initial = {
@@ -123,6 +124,7 @@ Text editor engine based on a Monaco instance
         });
 
         this.addObserver();
+        this.addActions();
         
         // Apply initial text/type
         if (this.initial) {
@@ -168,7 +170,7 @@ Text editor engine based on a Monaco instance
             node = node.parentNode;
         }
     }
-
+    
     /**
      * Removes the mutation observer added by `addObserver()`
      */
@@ -178,6 +180,200 @@ Text editor engine based on a Monaco instance
         this.observer = null;
     }
     
+    MonacoEngine.prototype.addActions = function() {
+
+        this.editor.addAction({
+            id: "preferences-open-settings",
+            label: "Preferences: Open Settings",
+            precondition: null,
+            keybindings: null,
+            keybindingContext: null,
+            contextMenuGroupId: null,
+            contextMenuOrder: null,
+            run: editor => {
+                this.wiki.addToStory("$:/ControlPanel");
+            },
+        })
+
+        const runToolbarAction = (tool, editor) => {
+            const result = this.widget.invokeActionString(tool.text, this.widget);
+            console.log("run", tool.title, "result", result);
+        }
+        for (const action of this.getToolbarActions(runToolbarAction)) {
+            this.editor.addAction(action);
+        }
+    }
+
+    // Chrome keycodes from https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
+    MonacoEngine.prototype.keyCodeToMonaco = function(keyCode) {
+        switch (keyCode) {
+            case 49: return this.monaco.KeyCode.Digit1;
+            case 50: return this.monaco.KeyCode.Digit2;
+            case 51: return this.monaco.KeyCode.Digit3;
+            case 52: return this.monaco.KeyCode.Digit4;
+            case 53: return this.monaco.KeyCode.Digit5;
+            case 54: return this.monaco.KeyCode.Digit6;
+            case 55: return this.monaco.KeyCode.Digit7;
+            case 56: return this.monaco.KeyCode.Digit8;
+            case 57: return this.monaco.KeyCode.Digit9;
+            case 48: return this.monaco.KeyCode.Digit0;
+            case 65: return this.monaco.KeyCode.KeyA;
+            case 66: return this.monaco.KeyCode.KeyB;
+            case 67: return this.monaco.KeyCode.KeyC;
+            case 68: return this.monaco.KeyCode.KeyD;
+            case 69: return this.monaco.KeyCode.KeyE;
+            case 70: return this.monaco.KeyCode.KeyF;
+            case 71: return this.monaco.KeyCode.KeyG;
+            case 72: return this.monaco.KeyCode.KeyH;
+            case 73: return this.monaco.KeyCode.KeyI;
+            case 74: return this.monaco.KeyCode.KeyJ;
+            case 75: return this.monaco.KeyCode.KeyK;
+            case 76: return this.monaco.KeyCode.KeyL;
+            case 77: return this.monaco.KeyCode.KeyM;
+            case 78: return this.monaco.KeyCode.KeyN;
+            case 79: return this.monaco.KeyCode.KeyO;
+            case 80: return this.monaco.KeyCode.KeyP;
+            case 81: return this.monaco.KeyCode.KeyQ;
+            case 82: return this.monaco.KeyCode.KeyR;
+            case 83: return this.monaco.KeyCode.KeyS;
+            case 84: return this.monaco.KeyCode.KeyT;
+            case 85: return this.monaco.KeyCode.KeyU;
+            case 86: return this.monaco.KeyCode.KeyV;
+            case 87: return this.monaco.KeyCode.KeyW;
+            case 88: return this.monaco.KeyCode.KeyX;
+            case 89: return this.monaco.KeyCode.KeyY;
+            case 90: return this.monaco.KeyCode.KeyZ;
+
+            case 188: return this.monaco.KeyCode.Comma;
+            case 190: return this.monaco.KeyCode.Period;
+            case 186: return this.monaco.KeyCode.Semicolon;
+            case 222: return this.monaco.KeyCode.Quote;
+            case 219: return this.monaco.KeyCode.BracketLeft;
+            case 221: return this.monaco.KeyCode.BracketRight;
+            case 192: return this.monaco.KeyCode.Backquote;
+            case 220: return this.monaco.KeyCode.Backslash;
+            case 189: return this.monaco.KeyCode.Minus;
+            case 187: return this.monaco.KeyCode.Equal;
+            
+            case 0: return this.monaco.KeyCode.ContextMenu;
+            case 13: return this.monaco.KeyCode.Enter;
+            case 32: return this.monaco.KeyCode.Space;
+            case 9: return this.monaco.KeyCode.Tab;
+            case 46: return this.monaco.KeyCode.Delete;
+            case 35: return this.monaco.KeyCode.End;
+            case 36: return this.monaco.KeyCode.Home;
+            case 45: return this.monaco.KeyCode.Insert;
+            case 34: return this.monaco.KeyCode.PageDown;
+            case 33: return this.monaco.KeyCode.PageUp;
+            case 40: return this.monaco.KeyCode.DownArrow;
+            case 37: return this.monaco.KeyCode.LeftArrow;
+            case 39: return this.monaco.KeyCode.RightArrow;
+            case 38: return this.monaco.KeyCode.UpArrow;
+            case 27: return this.monaco.KeyCode.Escape;
+            case 125: return this.monaco.KeyCode.ScrollLock;
+            case 19: return this.monaco.KeyCode.PauseBreak;
+
+            case 112: return this.monaco.KeyCode.F1;
+            case 113: return this.monaco.KeyCode.F2;
+            case 114: return this.monaco.KeyCode.F3;
+            case 115: return this.monaco.KeyCode.F4;
+            case 116: return this.monaco.KeyCode.F5;
+            case 117: return this.monaco.KeyCode.F6;
+            case 118: return this.monaco.KeyCode.F7;
+            case 119: return this.monaco.KeyCode.F8;
+            case 120: return this.monaco.KeyCode.F9;
+            case 121: return this.monaco.KeyCode.F10;
+            case 122: return this.monaco.KeyCode.F11;
+            case 123: return this.monaco.KeyCode.F12;
+            case 124: return this.monaco.KeyCode.F13;
+            case 125: return this.monaco.KeyCode.F14;
+            case 126: return this.monaco.KeyCode.F15;
+            case 127: return this.monaco.KeyCode.F16;
+            case 128: return this.monaco.KeyCode.F17;
+            case 129: return this.monaco.KeyCode.F18;
+            case 130: return this.monaco.KeyCode.F19;
+
+            case 144: return this.monaco.KeyCode.NumLock;
+            case 96: return this.monaco.KeyCode.Numpad0;
+            case 97: return this.monaco.KeyCode.Numpad1;
+            case 98: return this.monaco.KeyCode.Numpad2;
+            case 99: return this.monaco.KeyCode.Numpad3;
+            case 100: return this.monaco.KeyCode.Numpad4;
+            case 101: return this.monaco.KeyCode.Numpad5;
+            case 102: return this.monaco.KeyCode.Numpad6;
+            case 103: return this.monaco.KeyCode.Numpad7;
+            case 104: return this.monaco.KeyCode.Numpad8;
+            case 105: return this.monaco.KeyCode.Numpad9;
+            case 107: return this.monaco.KeyCode.NumpadAdd;
+            case 194: return this.monaco.KeyCode.NumpadComma;
+            case 110: return this.monaco.KeyCode.NumpadDecimal;
+            case 111: return this.monaco.KeyCode.NumpadDivide;
+            // case 13: return this.monaco.KeyCode.NumpadEnter; // Doesn't exist
+            // case 12: return this.monaco.KeyCode.NumpadEqual; // Doesn't exist
+            case 106: return this.monaco.KeyCode.NumpadMultiply;
+            case 109: return this.monaco.KeyCode.NumpadSubtract;
+        }
+        return this.monaco.KeyCode.Unknown;
+    }
+
+    MonacoEngine.prototype.evaluateEditCondition = function(condition) {
+        // Set targetTiddler needed for filterTiddlers
+        const parent = this.widget.parentWidget;
+        const prevTarget = parent.variables["targetTiddler"];
+        parent.setVariable("targetTiddler", this.widget.editTitle);
+
+        // Filter the one editTiddler used for the editor to see if it matches the condition
+        const editTiddlerIterator = this.wiki.makeTiddlerIterator([this.widget.editTitle]);
+        const filtered = this.wiki.filterTiddlers(condition, this.widget, editTiddlerIterator);
+
+        // Restore original targetTiddler value if any
+        if (prevTarget === undefined) {
+            delete parent.variables["targetTiddler"];
+        } else {
+            parent.variables["targetTiddler"] = prevTarget;
+        }
+
+        // Condition evaluates to true if only the original tiddler was returned after filtering
+        return filtered && filtered[0] == this.widget.editTitle;
+    }
+
+    MonacoEngine.prototype.getToolbarActions = function(run) {
+        const tools = this.wiki.getTiddlersWithTag("$:/tags/EditorToolbar");
+        return tools.map(toolTitle => {
+            const tool = this.wiki.getTiddler(toolTitle).fields;
+            const matchesCondition = this.evaluateEditCondition(tool.condition);
+            if (!matchesCondition) return null;
+            const description = this.wiki.renderText("text/plain", "text/vnd.tiddlywiki", tool.description);
+            let keybindings = null;
+            if (tool.shortcuts) {
+                const keys = $tw.keyboardManager.parseKeyDescriptors(tool.shortcuts, { wiki: this.wiki });
+                keybindings = keys.map(key => {
+                    const code = this.keyCodeToMonaco(key.keyCode);
+                    if (code == this.monaco.KeyCode.Unknown) {
+                        console.warn("Unsupported keyCode", key.keyCode, "for tool", tool.title);
+                        return 0;
+                    }
+                    let keybinding = code;
+                    if (key.shiftKey) keybinding |= this.monaco.KeyMod.Shift;
+                    if (key.altKey) keybinding |= this.monaco.KeyMod.Alt;
+                    if (key.ctrlKey) keybinding |= this.monaco.KeyMod.CtrlCmd;
+                    if (key.metaKey) keybinding |= this.monaco.KeyMod.WinCtrl;
+                    return keybinding;
+                });
+            }
+            return {
+                id: toolTitle,
+                label: description,
+                precondition: null,
+                keybindings,
+                keybindingContext: null,
+                contextMenuGroupId: null,
+                contextMenuOrder: null,
+                run: editor => run(tool, editor),
+            }
+        }).filter(action => !!action);
+    }
+
     /**
      * Dispose any attached resources or handlers to avoid leaking resources.
      */
@@ -272,7 +468,7 @@ Text editor engine based on a Monaco instance
         if (this.widget.editAutoHeight) {
             height = this.editor.getContentHeight();
         } else {
-            height = parseInt(this.widget.wiki.getTiddlerText(HEIGHT_VALUE_TITLE, "400px"), 10);
+            height = parseInt(this.wiki.getTiddlerText(HEIGHT_VALUE_TITLE, "400px"), 10);
         }
 
         height = Math.max(height, 40);
