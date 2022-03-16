@@ -1,7 +1,7 @@
 created: 20220224212850891
 draft.of: Editor Example
 draft.title: Editor Example
-modified: 20220313182426074
+modified: 20220316192024338
 tags: 
 title: Draft of 'Editor Example'
 type: text/vnd.tiddlywiki
@@ -13,6 +13,26 @@ Feel free to try it out in this tiddler.
 See [[readme|$:/plugins/smilyorg/monaco/readme]] for more details.
 
 ! Changelog
+
+!! 0.4.0 - Keyboard Shortcuts
+
+All the toolbar buttons should now be available as actions within the editor's Command Palette (F1), including the keyboard shortcuts to trigger them.
+
+Many basic formatting actions should work, but the ones involving popups (e.g. excise) do not work yet. Here are a few things to try.
+
+> Select `fearless` below, press F1, type "bold", and press Enter
+fearless
+
+> Select `daring` below, press Ctrl+B
+daring
+
+> Select `Headline` below, press F1, type "h3", and press Enter
+Headline
+
+> Select `Newsflash` below, press Ctrl+1
+Newsflash
+
+> Press F1, type "settings", and press Enter
 
 !! 0.3.0 - Wikitext Completion
 
