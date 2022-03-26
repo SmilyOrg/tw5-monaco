@@ -1,0 +1,10 @@
+title: $:/plugins/smilyorg/monaco/themes/vs-dark.json
+tags: $:/tags/monaco/theme
+name: Dark
+
+<pre>
+{
+    "base": "vs-dark",
+    "inherit": true
+}
+</pre>
