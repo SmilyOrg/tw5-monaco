@@ -1,0 +1,3 @@
+title: $:/config/monaco/theme
+type: string
+text: $:/plugins/smilyorg/monaco/themes/tiddlywiki.json

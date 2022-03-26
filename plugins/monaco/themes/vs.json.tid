@@ -1,0 +1,25 @@
+title: $:/plugins/smilyorg/monaco/themes/vs.json
+tags: $:/tags/monaco/theme
+name: Light
+
+<pre>
+{
+    "base": "vs",
+    "inherit": true,
+    "rules": [
+        { "token": "header", "foreground": "0000ff" },
+        { "token": "element-u", "fontStyle": "underline" },
+        { "token": "element-em", "fontStyle": "italic" },
+        { "token": "element-strong", "fontStyle": "bold" },
+        { "token": "element-strike", "fontStyle": "strikethrough" },
+        { "token": "element-div", "foreground": "007700" },
+        { "token": "element-a", "foreground": "3e5bbf" },
+        { "token": "link", "foreground": "3e5bbf" },
+        { "token": "link.title", "foreground": "b1bce1" },
+        { "token": "link.broken", "foreground": "ff0000" },
+        { "token": "transclude", "foreground": "0077ff" },
+        { "token": "macrocall", "foreground": "007700" },
+        { "token": "punctuation", "foreground": "d0d0d0" }
+    ]
+}
+</pre>
