@@ -11,13 +11,13 @@ Text editor engine based on a Monaco instance
     /*jslint browser: true */
     /*global $tw: false */
     "use strict";
-    
+
     const HEIGHT_VALUE_TITLE = "$:/config/TextEditor/EditorHeight/Height";
-    
+
     /**
      * Executes and returns the monaco loader based on the code contained
      * in the provided tiddler.
-     * @param {string} title loader.js tiddler title 
+     * @param {string} title loader.js tiddler title
      * @returns context object containing `require` and `define` used to load monaco
      */
     function getLoader(title) {
@@ -42,7 +42,7 @@ Text editor engine based on a Monaco instance
                 vs: "https://unpkg.com/monaco-editor@0.32.1/min/vs"
             }
         });
-        
+
         // Quick hack to make the monaco loader implementation work,
         // it might conflict with other plugins/code, but for vanilla TiddlyWiki
         // it seems to work fine.
@@ -52,25 +52,15 @@ Text editor engine based on a Monaco instance
         // as a result of this require and some also on-the-fly (for e.g. language support)
         context.require(["vs/editor/editor.main"], function() {
             window.monacoInit.dispatchEvent(new Event("ready"));
-            
-            // Run all monaco plugins
-            const modules = $tw.modules.types["monaco"];
-            const req = Object.getOwnPropertyNames(modules);
-            if (req) {
-                if (Array.isArray(req)) {
-                    for (const r of req) {
-                        require(r);
-                    }
-                } else {
-                    require(req);
-                }
-            }
+            $tw.modules.forEachModuleOfType('monaco', function (title, exportModules) {
+                // Actually, no need to call require(title)
+            });
         });
     }
-    
+
     function MonacoEngine(options) {
         options = options || {};
-        
+
         this.widget = options.widget;
         this.wiki = this.widget.wiki;
         this.value = options.value;
@@ -79,9 +69,9 @@ Text editor engine based on a Monaco instance
             type: options.type,
             value: options.value,
         }
-        
+
         this.domNode = this.widget.document.createElement("div");
-        
+
         let className = "tw-monaco-editor-wrapper";
         if (this.widget.editClass) {
             className += " " + this.widget.editClass;
@@ -100,7 +90,7 @@ Text editor engine based on a Monaco instance
             window.monacoInit.addEventListener("ready", this.initMonaco.bind(this))
         }
     }
-    
+
     MonacoEngine.prototype.initMonaco = function() {
         if (this.editor) {
             throw new Error("Monaco already initialized");
@@ -125,7 +115,7 @@ Text editor engine based on a Monaco instance
 
         this.addObserver();
         this.addActions();
-        
+
         // Apply initial text/type
         if (this.initial) {
             this.updateModel(this.initial.value, this.initial.type);
@@ -145,14 +135,14 @@ Text editor engine based on a Monaco instance
     /**
      * Adds mutation observers to detect when the editor node has detached from
      * the browser DOM to dispose of the attached editor resources.
-     * 
+     *
      * If Monaco isn't explicitly disposed, it seems to lead to a memory leak of
      * ~5MB every time a new editor is allocated. This can happen more often than
      * expected (e.g. toggling preview or just going into and out of edit mode).
-     * 
+     *
      * This is a workaround of TiddlyWiki not having a widget destructor,
      * see https://github.com/Jermolene/TiddlyWiki5/pull/2280
-     * 
+     *
      */
     MonacoEngine.prototype.addObserver = function() {
         if (this.observer) this.removeObserver();
@@ -160,7 +150,7 @@ Text editor engine based on a Monaco instance
         let node = this.parentNode;
         while (node != null) {
             if (node.classList && (
-                node.classList.contains("tc-reveal") || 
+                node.classList.contains("tc-reveal") ||
                 node.classList.contains("tc-tiddler-frame")
             )) {
                 this.observer.observe(node.parentNode, {
@@ -170,7 +160,7 @@ Text editor engine based on a Monaco instance
             node = node.parentNode;
         }
     }
-    
+
     /**
      * Removes the mutation observer added by `addObserver()`
      */
@@ -179,7 +169,7 @@ Text editor engine based on a Monaco instance
         this.observer.disconnect();
         this.observer = null;
     }
-    
+
     MonacoEngine.prototype.addActions = function() {
 
         this.editor.addAction({
@@ -259,7 +249,7 @@ Text editor engine based on a Monaco instance
             case 220: return this.monaco.KeyCode.Backslash;
             case 189: return this.monaco.KeyCode.Minus;
             case 187: return this.monaco.KeyCode.Equal;
-            
+
             case 0: return this.monaco.KeyCode.ContextMenu;
             case 13: return this.monaco.KeyCode.Enter;
             case 32: return this.monaco.KeyCode.Space;
@@ -408,7 +398,7 @@ Text editor engine based on a Monaco instance
 
     /**
      * Update the editor model with the provided text and language type.
-     * 
+     *
      * @param {string} text The text contents to set for the editor.
      * @param {string} type The MIME type of the language to apply to the editor.
      */
@@ -434,33 +424,33 @@ Text editor engine based on a Monaco instance
         // Only update the text if it's different as TiddlyWiki
         // often sets text that was updated and we don't want
         // to mess up the internal state of the editor (e.g. cursor position)
-        // if the text is the same. 
+        // if the text is the same.
         } else if (model.getValue() != text) {
             model.setValue(text);
         }
     }
-    
+
     /*
     Set the text of the engine if it doesn't currently have focus
     */
     MonacoEngine.prototype.setText = function(text,type) {
         this.updateModel(text, type);
     };
-    
+
     /*
     Update the DomNode with the new text
     */
     MonacoEngine.prototype.updateDomNodeText = function(text) {
         // TODO: not sure what this should do, doesn't seem to get called
     };
-    
+
     /*
     Get the text of the engine
     */
     MonacoEngine.prototype.getText = function() {
         return this.editor.getValue();
     };
-    
+
     /*
     Fix the height of textarea to fit content
     */
@@ -482,14 +472,14 @@ Text editor engine based on a Monaco instance
             height,
         });
     };
-    
+
     /*
     Focus the engine node
     */
     MonacoEngine.prototype.focus  = function() {
         // TODO: if/when is this called and do we want to focus the editor?
     }
-    
+
     /*
     Create a blank structure representing a text operation
     */
@@ -509,7 +499,7 @@ Text editor engine based on a Monaco instance
         operation.selection = operation.text.substring(operation.selStart,operation.selEnd);
         return operation;
     };
-    
+
     /*
     Execute a text operation
     */
@@ -533,8 +523,7 @@ Text editor engine based on a Monaco instance
         );
         return model.getValue();
     };
-    
+
     exports.MonacoEngine = $tw.browser ? MonacoEngine : require("$:/core/modules/editor/engines/simple.js").SimpleEngine;
-    
+
     })();
-    

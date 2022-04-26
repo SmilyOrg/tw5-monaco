@@ -8,5 +8,6 @@
     "source": "https://github.com/smilyorg/tw5-monaco",
     "plugin-type": "plugin",
     "parent-plugin": "$:/plugins/smilyorg/monaco",
-	"list": "readme license"
+	"list": "readme license",
+    "dependents": "$:/plugins/smilyorg/monaco"
 }
