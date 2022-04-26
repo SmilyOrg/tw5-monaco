@@ -1,7 +1,7 @@
 created: 20220224212850891
 draft.of: Editor Example
 draft.title: Editor Example
-modified: 20220316192024338
+modified: 20220326194212310
 tags: 
 title: Draft of 'Editor Example'
 type: text/vnd.tiddlywiki
@@ -13,6 +13,14 @@ Feel free to try it out in this tiddler.
 See [[readme|$:/plugins/smilyorg/monaco/readme]] for more details.
 
 ! Changelog
+
+!! 0.5.0 - Themes
+
+Custom themes are now supported! The default TiddlyWiki theme takes colors from the currently chosen palette. 
+
+> Try changing the palette in the top right toolbar to Twilight!
+
+> Press F1, type "Theme: Light", and press Enter
 
 !! 0.4.0 - Keyboard Shortcuts
 

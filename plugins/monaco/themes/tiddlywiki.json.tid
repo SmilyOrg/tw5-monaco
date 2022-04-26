@@ -1,0 +1,43 @@
+title: $:/plugins/smilyorg/monaco/themes/tiddlywiki.json
+tags: $:/tags/monaco/theme
+name: TiddlyWiki
+
+\import $:/core/macros/CSS
+
+<!-- palette color to hex value -->
+\define hex(name)
+<$wikify name=wikified text="<<colour $name$>>"><$macrocall $name="colortohex" color=<<wikified>> /></$wikify>
+\end
+
+<!-- same as hex, but with fallback -->
+\define hexf(name, fallback)
+<$wikify name=n text="<<colour $name$>>"><$wikify name=f text="<<colour $fallback$>>"><$wikify name=hn text="<$macrocall $name=colortohex color=<<n>> />"><$wikify name=hf text="<$macrocall $name=colortohex color=<<f>> />">{{{[<hn>!is[blank]else<hf>]}}}</$wikify></$wikify></$wikify></$wikify>
+\end
+
+<pre>
+{
+    "colors": {
+        "editor.background": "<<hex background>>",
+        "editor.foreground": "<<hex foreground>>",
+        "editorCursor.foreground": "<<hex foreground>>",
+        "editor.selectionBackground": "<<hex selection-background>>",
+        "editor.lineHighlightBorder": "<<hex code-border>>"
+    },
+    "rules": [
+        { "token": "header", "foreground": "<<hex tiddler-title-foreground>>" },
+        { "token": "element-u", "fontStyle": "underline" },
+        { "token": "element-em", "fontStyle": "italic" },
+        { "token": "element-strong", "fontStyle": "bold" },
+        { "token": "element-strike", "fontStyle": "strikethrough" },
+        { "token": "element-div", "foreground": "<<hex alert-muted-foreground>>" },
+        { "token": "element-code", "foreground": "<<hex code-foreground>>" },
+        { "token": "element-a", "foreground": "<<hex external-link-foreground>>" },
+        { "token": "link", "foreground": "<<hex tiddler-link-foreground>>" },
+        { "token": "link.title", "foreground": "<<hex very-muted-foreground>>" },
+        { "token": "link.broken", "foreground": "<<hexf dirty-indicator alert-highlight>>" },
+        { "token": "transclude", "foreground": "<<hex tiddler-link-foreground>>" },
+        { "token": "macrocall", "foreground": "<<hex code-foreground>>" },
+        { "token": "punctuation", "foreground": "<<hex muted-foreground>>" }
+    ]
+}
+</pre>

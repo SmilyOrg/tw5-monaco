@@ -192,6 +192,11 @@ Text editor engine based on a Monaco instance
         for (const action of this.getToolbarActions(runToolbarAction)) {
             this.editor.addAction(action);
         }
+
+        const getThemeActions = require("$:/plugins/smilyorg/monaco/theme.js").getActions;
+        for (const action of getThemeActions()) {
+            this.editor.addAction(action);
+        }
     }
 
     // Chrome keycodes from https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
