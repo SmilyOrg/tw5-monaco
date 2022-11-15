@@ -11,12 +11,15 @@ Wikitext completion support
 
     const { monaco } = require("$:/plugins/smilyorg/monaco/monaco.js");
     const { LANGUAGE_ID } = require("$:/plugins/smilyorg/monaco-wikitext/language.js");
+
+    const STAMP_PREFIX = $tw.wiki.getTiddlerText('$:/config/smilyorg/monaco-wikitext/stampPrefix');
     
     const MATCH_LINK = /(\[\[)([^\|\]]*)(\|?)([^\]]*)(\]?\]?)/;
+    const MATCH_STAMP = new RegExp(`(${STAMP_PREFIX}${STAMP_PREFIX})([A-Za-z0-9_-]*)`, "");;
     const MATCH_TRANSCLUSION = /({{)([^}]*)(}?}?)/;
 
     monaco.languages.registerCompletionItemProvider(LANGUAGE_ID, {
-        triggerCharacters: ["[", "|", "{"],
+        triggerCharacters: ["[", "|", "{", STAMP_PREFIX],
         resolveCompletionItem(item) {
             const title = item.label;
             const tiddler = $tw.wiki.getTiddler(title);
@@ -79,6 +82,27 @@ Wikitext completion support
                     return {
                         incomplete: true,
                         suggestions: linkSuggestions,
+                    };
+                }
+            }
+            let templateStart = findNearestDoubleChar(text, textPos, ";");
+            if (context.triggerKind == monaco.languages.CompletionTriggerKind.TriggerCharacter) {
+                switch (context.triggerCharacter) {
+                    case ";":
+                        // When triggered by [, ignore if not double [
+                        if (templateStart == -1 || templateStart != textPos-2) {
+                            return null;
+                        }
+                        break;
+                }
+            }
+            
+            if (templateStart != -1) {
+                const templateSuggestions = getTemplateSuggestions(text, templateStart, textPos, range);
+                if (templateSuggestions) {
+                    return {
+                        incomplete: true,
+                        suggestions: templateSuggestions,
                     };
                 }
             }
@@ -177,10 +201,48 @@ Wikitext completion support
         return suggestions;
     }
     
+    function getTemplateSuggestions(text, start, cursor, range) {
+        const contents = text.substr(start);
+        const link = MATCH_STAMP.exec(contents);
+        if (!link || link.length == 0) {
+            return null;
+        }
+        
+        const end = start + link[0].length;
+        if (cursor > end) {
+            return null;
+        }
+
+        let title = link[2];
+
+        let titles = $tw.wiki.getTagMap()["$:/stamp"].filter(word => word.includes(title));
+        const suggestions = [];
+        for (let i = 0; i < titles.length; i++) {
+            let title = titles[i];
+            if (title.lastIndexOf('/') >= 0){
+                title = title.substr(title.lastIndexOf('/')+1);
+            }
+            const insertText = `${title}`;
+            suggestions.push({
+                kind: monaco.languages.CompletionItemKind.Field,
+                label: insertText,
+                filterText: `;;${title}`,
+                range: {
+                    startLineNumber: range.startLineNumber,
+                    endLineNumber: range.endLineNumber,
+                    startColumn: range.startColumn + start,
+                    endColumn: range.startColumn + end,
+                },
+                insertText: $tw.wiki.getTiddlerText(titles[i]),
+            })
+        }
+        
+        return suggestions;
+    }
+
     function getTransclusionSuggestions(text, start, cursor, range) {
         const contents = text.substr(start);
         const trans = MATCH_TRANSCLUSION.exec(contents);
-        console.log(MATCH_TRANSCLUSION, text, start, contents);
         if (!trans || trans.length == 0) {
             return null;
         }
